@@ -1,0 +1,12 @@
+C:\HotelManagement\HotelManagementData\bin\Debug\HotelManagementData.dll.config
+C:\HotelManagement\HotelManagementData\bin\Debug\HotelManagementData.dll
+C:\HotelManagement\HotelManagementData\bin\Debug\HotelManagementData.pdb
+C:\HotelManagement\HotelManagementData\bin\Debug\EntityFramework.dll
+C:\HotelManagement\HotelManagementData\bin\Debug\EntityFramework.SqlServer.dll
+C:\HotelManagement\HotelManagementData\bin\Debug\EntityFramework.xml
+C:\HotelManagement\HotelManagementData\bin\Debug\EntityFramework.SqlServer.xml
+C:\HotelManagement\HotelManagementData\obj\Debug\HotelManagementData.csprojAssemblyReference.cache
+C:\HotelManagement\HotelManagementData\obj\Debug\HotelManagementData.csproj.CoreCompileInputs.cache
+C:\HotelManagement\HotelManagementData\obj\Debug\HotelManagementData.csproj.CopyComplete
+C:\HotelManagement\HotelManagementData\obj\Debug\HotelManagementData.dll
+C:\HotelManagement\HotelManagementData\obj\Debug\HotelManagementData.pdb

@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HotelManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CustomerInfo">
+    <Key>
+      <PropertyRef Name="CustomerKey" />
+    </Key>
+    <Property Name="CustomerKey" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerName" Type="varchar(max)" Nullable="false" />
+    <Property Name="Email" Type="varchar(max)" Nullable="false" />
+    <Property Name="CustomerObjectId" Type="varchar(max)" Nullable="false" />
+    <Property Name="InsertedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="HotelOwner">
+    <Key>
+      <PropertyRef Name="HotelUserKey" />
+    </Key>
+    <Property Name="HotelUserKey" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="HotelUserName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="InsertedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="HotelRoom">
+    <Key>
+      <PropertyRef Name="RoomKey" />
+    </Key>
+    <Property Name="RoomKey" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoomNo" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="InsertedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RoomCustomerMap">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoomKey" Type="int" Nullable="false" />
+    <Property Name="CustomerKey" Type="int" Nullable="false" />
+    <Property Name="BookedTime" Type="datetime" Nullable="false" />
+    <Property Name="InsertedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_CustomerInfo">
+    <End Role="CustomerInfo" Type="Self.CustomerInfo" Multiplicity="1" />
+    <End Role="RoomCustomerMap" Type="Self.RoomCustomerMap" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustomerInfo">
+        <PropertyRef Name="CustomerKey" />
+      </Principal>
+      <Dependent Role="RoomCustomerMap">
+        <PropertyRef Name="CustomerKey" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HotelRoom">
+    <End Role="HotelRoom" Type="Self.HotelRoom" Multiplicity="1" />
+    <End Role="RoomCustomerMap" Type="Self.RoomCustomerMap" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HotelRoom">
+        <PropertyRef Name="RoomKey" />
+      </Principal>
+      <Dependent Role="RoomCustomerMap">
+        <PropertyRef Name="RoomKey" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HotelManagementModelStoreContainer">
+    <EntitySet Name="CustomerInfo" EntityType="Self.CustomerInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HotelOwner" EntityType="Self.HotelOwner" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HotelRoom" EntityType="Self.HotelRoom" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RoomCustomerMap" EntityType="Self.RoomCustomerMap" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_CustomerInfo" Association="Self.FK_CustomerInfo">
+      <End Role="CustomerInfo" EntitySet="CustomerInfo" />
+      <End Role="RoomCustomerMap" EntitySet="RoomCustomerMap" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HotelRoom" Association="Self.FK_HotelRoom">
+      <End Role="HotelRoom" EntitySet="HotelRoom" />
+      <End Role="RoomCustomerMap" EntitySet="RoomCustomerMap" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

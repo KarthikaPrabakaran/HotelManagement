@@ -1,0 +1,16 @@
+C:\HotelManagement\HotelManagement.IRepository\obj\Debug\HotelManagement.IRepository.csproj.CoreCompileInputs.cache
+C:\HotelManagement\HotelManagement.IRepository\bin\Debug\HotelManagement.IRepository.dll.config
+C:\HotelManagement\HotelManagement.IRepository\bin\Debug\HotelManagement.IRepository.dll
+C:\HotelManagement\HotelManagement.IRepository\bin\Debug\HotelManagement.IRepository.pdb
+C:\HotelManagement\HotelManagement.IRepository\bin\Debug\HotelManagementData.dll
+C:\HotelManagement\HotelManagement.IRepository\bin\Debug\HotelManagementDto.dll
+C:\HotelManagement\HotelManagement.IRepository\bin\Debug\EntityFramework.dll
+C:\HotelManagement\HotelManagement.IRepository\bin\Debug\HotelManagementData.pdb
+C:\HotelManagement\HotelManagement.IRepository\bin\Debug\HotelManagementData.dll.config
+C:\HotelManagement\HotelManagement.IRepository\bin\Debug\HotelManagementDto.pdb
+C:\HotelManagement\HotelManagement.IRepository\bin\Debug\HotelManagementDto.dll.config
+C:\HotelManagement\HotelManagement.IRepository\bin\Debug\EntityFramework.xml
+C:\HotelManagement\HotelManagement.IRepository\obj\Debug\HotelManagement.IRepository.csprojAssemblyReference.cache
+C:\HotelManagement\HotelManagement.IRepository\obj\Debug\HotelManagement.IRepository.csproj.CopyComplete
+C:\HotelManagement\HotelManagement.IRepository\obj\Debug\HotelManagement.IRepository.dll
+C:\HotelManagement\HotelManagement.IRepository\obj\Debug\HotelManagement.IRepository.pdb

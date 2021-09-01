@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="HotelManagementModelStoreContainer" CdmEntityContainer="HotelManagementEntities">
+    <EntitySetMapping Name="CustomerInfoes">
+      <EntityTypeMapping TypeName="HotelManagementModel.CustomerInfo">
+        <MappingFragment StoreEntitySet="CustomerInfo">
+          <ScalarProperty Name="CustomerKey" ColumnName="CustomerKey" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="CustomerObjectId" ColumnName="CustomerObjectId" />
+          <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelOwners">
+      <EntityTypeMapping TypeName="HotelManagementModel.HotelOwner">
+        <MappingFragment StoreEntitySet="HotelOwner">
+          <ScalarProperty Name="HotelUserKey" ColumnName="HotelUserKey" />
+          <ScalarProperty Name="HotelUserName" ColumnName="HotelUserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelRooms">
+      <EntityTypeMapping TypeName="HotelManagementModel.HotelRoom">
+        <MappingFragment StoreEntitySet="HotelRoom">
+          <ScalarProperty Name="RoomKey" ColumnName="RoomKey" />
+          <ScalarProperty Name="RoomNo" ColumnName="RoomNo" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RoomCustomerMaps">
+      <EntityTypeMapping TypeName="HotelManagementModel.RoomCustomerMap">
+        <MappingFragment StoreEntitySet="RoomCustomerMap">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RoomKey" ColumnName="RoomKey" />
+          <ScalarProperty Name="CustomerKey" ColumnName="CustomerKey" />
+          <ScalarProperty Name="BookedTime" ColumnName="BookedTime" />
+          <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

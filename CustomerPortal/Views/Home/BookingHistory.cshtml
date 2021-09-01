@@ -1,0 +1,243 @@
+﻿
+@{
+    ViewBag.Title = "BookingHistory";
+}
+
+<h2>BookingHistory</h2>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="Stylesheet" type="text/css" />
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
+<script language="javascript">
+    $(document).ready(function () {
+        LoadBookingHistory(1);
+    });
+    function showAlert(errorMessage) {
+        swal(errorMessage);
+    }
+
+
+    function LoadBookingHistory(pageno) {
+        var postObject = new Object();
+        postObject.CurrentPage = pageno;
+        postObject.PageSize = 20;
+        $.ajax({
+            type: 'POST',
+            url: "/Home/BookingHistory/",
+            data: { request: postObject },
+            success: function (data) {
+                if (data.StatusCode !== 200) {
+                    if (data.StatusCode === 400) {
+                        $('.loader').hide();
+                        window.location.href = "/Home/Logout";
+                        return;
+                    }
+                    $('.loader').hide();
+                    $('#paymentDetailDivloader').hide();
+                    showAlert(data.Message);
+                    $("#pastPaymentTable").html("");
+                    document.getElementById("noDataDivForPast").style.display = "block";
+
+                    return;
+                }
+                var result = data.Data;
+                if (result != null && result.Items != null) {
+                    if (result.Items.length != 0) {
+                        if (pageno == 1) {
+                            document.getElementById("noDataDivForPast").style.display = "none";
+                            var html = "";
+                            html = html + "<thead><tr><th>Booking Date</th><th>Room No</th><th>Room Type</th></tr></thead>";
+                            html = html + "<tbody>"
+                            $.each(result.Items, function (key, obj) {
+                                html = html + "<tr>";
+                                html = html + "<td>" + obj["BookedDate"] + "</td>";
+                                html = html + "<td>" + obj["RoomNumber"] + "</td>";
+                                html = html + "<td>" + obj["RoomType"] + "</td>";
+                                html = html + "</tr>"
+                            });
+                            html = html + "</tbody>"
+                            $("#pastPaymentTable").html(html);
+
+                            if (document.getElementById("paymentDetailCurrentPageDiv") != null)
+                                document.getElementById("paymentDetailCurrentPageDiv").name = result.TotalPages;
+                            if (document.getElementById("paymentDetailPaginationCountDiv") != null)
+                                document.getElementById("paymentDetailPaginationCountDiv").name = result.CurrentPage;
+                            var startItem = ((result.CurrentPage - 1) * result.PageSize) + 1;
+                            var endItem = (startItem - 1) + result.PageSize;
+                            if (endItem > result.TotalItems) {
+                                endItem = result.TotalItems;
+                            }
+                            if (document.getElementById("paymentDetailPaginationCountDiv") != null)
+                                document.getElementById("paymentDetailPaginationCountDiv").innerHTML = "Showing " + startItem + " - " + endItem + " of " + result.TotalItems;
+                            $("#paymentDetailPaginationCountDiv").val(result.CurrentPage);
+                        }
+                        else {
+                            document.getElementById("noDataDivForPast").style.display = "none";
+                            var htmlappend = "";
+                            $.each(result.Items, function (key, obj) {
+                                htmlappend = htmlappend + "<tr>";
+                                htmlappend = htmlappend + "<td>" + obj["BookedDate"] + "</td>";
+                                htmlappend = htmlappend + "<td>" + obj["RoomNumber"] + "</td>";
+                                htmlappend = htmlappend + "<td>" + obj["RoomType"] + "</td>";
+                                htmlappend = htmlappend + "</tr>"
+                            });
+                            $('#pastPaymentTable > tbody:last-child').append(htmlappend);
+                            // if (currentPageId != "")
+                            document.getElementById("paymentDetailCurrentPageDiv").name = result.TotalPages;
+                            // if (paginationId != "")
+                            document.getElementById("paymentDetailPaginationCountDiv").name = result.CurrentPage;
+                        }
+                    }
+                    else {
+                        if (pageno == 1) {
+                            document.getElementById("noDataDivForPast").style.display = "block";
+                        }
+                    }
+                }
+                else {
+                    if (pageno == 1) {
+                        document.getElementById("noDataDivForPast").style.display = "block";
+                    }
+                }
+
+
+            },
+            error: function (jqXHR, status, err) {
+                showAlert(err);
+                $("#pastPaymentTable").html("");
+                document.getElementById("noDataDivForPast").style.display = "block";
+                return;
+            }
+
+        });
+    }
+
+    function OnScrollPaginationForPastPayment() {
+        var totalPage = document.getElementById("paymentDetailCurrentPageDiv").name;
+        var currentPage = document.getElementById("paymentDetailPaginationCountDiv").name;
+        currentPage = parseInt(currentPage) + 1;
+        if (currentPageNumberForpayment == currentPage)
+            return;
+        if (currentPage > totalPage)
+            return;
+        if ($("#pastpaymentDetailMainDiv").scrollTop() + $("#pastpaymentDetailMainDiv").innerHeight() >= $("#pastpaymentDetailMainDiv")[0].scrollHeight) {
+            LoadPastPayment(currentPage);
+        }
+    }
+</script>
+<style>
+
+    .table-fixed thead {
+        position: sticky;
+        position: -webkit-sticky;
+        top: 0;
+        z-index: 999;
+        background-color: #2e3191;
+        color: #fff;
+    }
+
+        .table-fixed thead th {
+            position: sticky;
+            position: -webkit-sticky;
+            top: 0;
+            z-index: 999;
+            background-color: #2e3191;
+            color: #fff;
+        }
+
+    .table-fixed {
+        width: 100%;
+    }
+
+    .table-responsive::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        background-color: #F5F5F5;
+    }
+
+    .table-responsive::-webkit-scrollbar {
+        width: 4px;
+        background-color: #F5F5F5;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        background-color: #555;
+    }
+
+    .pastPayment_Table {
+        overflow-y: scroll;
+        display: inline-block;
+        max-height: 300px;
+        table-layout: fixed;
+        border-collapse: collapse;
+        width: 100%;
+        position: inherit;
+    }
+
+    .invoice_Table {
+        overflow-y: scroll;
+        display: inline-block;
+        max-height: 300px;
+        table-layout: fixed;
+        border-collapse: collapse;
+        width: 100%;
+        position: inherit;
+    }
+
+    #invoiceTable th {
+        font-style: normal !important;
+        /*//color: white !important;*/
+    }
+    /*.datepicker.datepicker-dropdown.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
+        z-index: 999 !important;
+    }*/
+</style>
+<body>
+    <div class="col-md-12" id="pastpaymentmainDiv" style="display:block">
+        <div class="m-portlet m-portlet--responsive-mobile m-portlet--warning m-portlet--head-solid-bg" style="margin-bottom: 0;">
+            <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <span class="m-portlet__head-icon m--hide">
+                            <i class="la la-gear"></i>
+                        </span>
+                      <h3 class="m-portlet__head-text">
+                           @*// Booking History*@
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <br />
+            <div class="col-md-12" id="pastPaymentDetailDiv">
+                <div class="m-portlet__body">
+                    <!--begin: Datatable -->
+                    <div class="alert alert-danger" id="noDataDivForPast" style="display:none;">
+                        <strong>No Data Found</strong>
+                    </div>
+                    <div class="table-responsive pastPayment_Table" onscroll="OnScrollPaginationForPastPayment()" id="pastpaymentDetailMainDiv">
+                        <table class="table table-striped- table-bordered table-hover table-checkable  table-fixed" id="pastPaymentTable">
+                        </table>
+                    </div>
+                    <div class="row dataTables_wrapper container-fluid dt-bootstrap4 no-footer" id="test_wrapper">
+                        <div class="" style="width: 70px;margin: 0 5px 0 5px;display:none">
+                            <input type="number" class="form-control form-control-sm" placeholder="" id="paymentDetailCurrentPageDiv" min="1" max="9999" name="1" value="1">
+                        </div>
+                        <div class="col-sm-12 col-md-5" style="display:none">
+                            <div class="dataTables_info" id="paymentDetailPaginationCountDiv" role="status" aria-live="polite"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>

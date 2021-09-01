@@ -1,0 +1,213 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<title></title>
+<link href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="Stylesheet"
+      type="text/css" />
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<script language="javascript">
+    $(document).ready(function () {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+
+        today = yyyy + '-' + mm + '-' + dd;
+        document.getElementById("fromDate").setAttribute("min", today);
+        document.getElementById("fromDate").setAttribute("value", today);
+        document.getElementById("endDate").setAttribute("value", today);
+        document.getElementById("endDate").setAttribute("min", today);
+    });
+    function showAlert(errorMessage) {
+        swal(errorMessage);
+    }
+    function BookRoom() {
+        var postObject = new Object();
+        postObject.FromDate = $("#fromDate").val();
+        postObject.ToDate = $("#endDate").val();
+        postObject.RoomType = $("#roomtype").val();
+        $.ajax({
+            type: 'POST',
+            url: "/Home/BookRoom/",
+            data: { request: postObject },
+            success: function (data) {
+                if (data.StatusCode != 200) {
+                    if (data.StatusCode === 400) {
+                        $('.loader').hide();
+                        window.location.href = "/Base/Logout";
+                        return;
+                    }
+                    showAlert(data.Message);
+                    return;
+                }
+                var result = data.Data;
+                showAlert("Booked " + result.Type + " Room " + result.RoomNo + " Successfully");
+                return;
+
+            },
+            error: function (jqXHR, status, err) {
+                showAlert(err);
+                return;
+            }
+
+        });
+    }
+</script>
+<style>
+    /*.m-portlet .m-portlet__head {
+        height: 2.5rem;
+    }
+
+    .divider {
+        border: 1px solid #ccc;
+    }
+
+    .form-group label {
+        font-size: 12px;
+    }
+
+    .card-img img {
+        width: 100%;
+        padding: 65px;
+    }*/
+    .table-fixed thead {
+        position: sticky;
+        position: -webkit-sticky;
+        top: 0;
+        z-index: 999;
+        background-color: #2e3191;
+        color: #fff;
+    }
+
+        .table-fixed thead th {
+            position: sticky;
+            position: -webkit-sticky;
+            top: 0;
+            z-index: 999;
+            background-color: #2e3191;
+            color: #fff;
+        }
+
+    .table-fixed {
+        width: 100%;
+    }
+
+    .table-responsive::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        background-color: #F5F5F5;
+    }
+
+    .table-responsive::-webkit-scrollbar {
+        width: 4px;
+        background-color: #F5F5F5;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        background-color: #555;
+    }
+
+    .pastPayment_Table {
+        overflow-y: scroll;
+        display: inline-block;
+        max-height: 125px;
+        table-layout: fixed;
+        border-collapse: collapse;
+        width: 100%;
+        position: inherit;
+    }
+
+    .invoice_Table {
+        overflow-y: scroll;
+        display: inline-block;
+        max-height: 300px;
+        table-layout: fixed;
+        border-collapse: collapse;
+        width: 100%;
+        position: inherit;
+    }
+
+    #invoiceTable th {
+        font-style: normal !important;
+        /*//color: white !important;*/
+    }
+    /*.datepicker.datepicker-dropdown.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
+        z-index: 999 !important;
+    }*/
+</style>
+<body>
+    <div class="col-md-12" id="addpaymentDiv">
+        <div class="m-portlet m-portlet--responsive-mobile m-portlet--warning m-portlet--head-solid-bg" style="margin-bottom:5px;">
+            <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <span class="m-portlet__head-icon m--hide">
+                            <i class="la la-gear"></i>
+                        </span>
+                        <h3 class="m-portlet__head-text">
+                            Book Room
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <!--begin::Form-->
+            <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+                <div class="m-portlet__body">
+                    <div class="form-group m-form__group row">
+                        <div class="kt-section kt-section--first col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <div class="kt-section__body ">
+                                <div class="row ">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                        <label>From Date</label>
+                                        <div class="input-group m-input-group m-input-group--square">
+                                            <input type="date" id="fromDate" name="trip-start">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                        <label>To Date</label>
+                                        <div class="input-group m-input-group m-input-group--square">
+                                            <input type="date" id="endDate" name="trip-start">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                        <label>Room Type</label>
+                                        <div class="input-group m-input-group m-input-group--square">
+                                            <select class="custom-select form-control" id="roomtype">
+                                                <option value="Single" selected="">Single</option>
+                                                <option value="Double">Double</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                        <label></label>
+                                        <div class="input-group m-input-group m-input-group--square">
+                                            <button id="bookButton" onclick="BookRoom();" type="button" class="btn btn-danger m-btn m-btn--custom m-btn--icon" data-wizard-action="next">Book Room</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+</body>
+
+
+

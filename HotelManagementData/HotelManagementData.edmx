@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HotelManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CustomerInfo">
+          <Key>
+            <PropertyRef Name="CustomerKey" />
+          </Key>
+          <Property Name="CustomerKey" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerName" Type="varchar(max)" Nullable="false" />
+          <Property Name="Email" Type="varchar(max)" Nullable="false" />
+          <Property Name="CustomerObjectId" Type="varchar(max)" Nullable="false" />
+          <Property Name="InsertedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HotelOwner">
+          <Key>
+            <PropertyRef Name="HotelUserKey" />
+          </Key>
+          <Property Name="HotelUserKey" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HotelUserName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="InsertedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HotelRoom">
+          <Key>
+            <PropertyRef Name="RoomKey" />
+          </Key>
+          <Property Name="RoomKey" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoomNo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="InsertedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RoomCustomerMap">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoomKey" Type="int" Nullable="false" />
+          <Property Name="CustomerKey" Type="int" Nullable="false" />
+          <Property Name="BookedTime" Type="datetime" Nullable="false" />
+          <Property Name="InsertedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CustomerInfo">
+          <End Role="CustomerInfo" Type="Self.CustomerInfo" Multiplicity="1" />
+          <End Role="RoomCustomerMap" Type="Self.RoomCustomerMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerInfo">
+              <PropertyRef Name="CustomerKey" />
+            </Principal>
+            <Dependent Role="RoomCustomerMap">
+              <PropertyRef Name="CustomerKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HotelRoom">
+          <End Role="HotelRoom" Type="Self.HotelRoom" Multiplicity="1" />
+          <End Role="RoomCustomerMap" Type="Self.RoomCustomerMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HotelRoom">
+              <PropertyRef Name="RoomKey" />
+            </Principal>
+            <Dependent Role="RoomCustomerMap">
+              <PropertyRef Name="RoomKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HotelManagementModelStoreContainer">
+          <EntitySet Name="CustomerInfo" EntityType="Self.CustomerInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HotelOwner" EntityType="Self.HotelOwner" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HotelRoom" EntityType="Self.HotelRoom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoomCustomerMap" EntityType="Self.RoomCustomerMap" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CustomerInfo" Association="Self.FK_CustomerInfo">
+            <End Role="CustomerInfo" EntitySet="CustomerInfo" />
+            <End Role="RoomCustomerMap" EntitySet="RoomCustomerMap" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HotelRoom" Association="Self.FK_HotelRoom">
+            <End Role="HotelRoom" EntitySet="HotelRoom" />
+            <End Role="RoomCustomerMap" EntitySet="RoomCustomerMap" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HotelManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CustomerInfo">
+          <Key>
+            <PropertyRef Name="CustomerKey" />
+          </Key>
+          <Property Name="CustomerKey" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CustomerObjectId" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="InsertedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="RoomCustomerMaps" Relationship="Self.FK_CustomerInfo" FromRole="CustomerInfo" ToRole="RoomCustomerMap" />
+        </EntityType>
+        <EntityType Name="HotelOwner">
+          <Key>
+            <PropertyRef Name="HotelUserKey" />
+          </Key>
+          <Property Name="HotelUserKey" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HotelUserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="InsertedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="HotelRoom">
+          <Key>
+            <PropertyRef Name="RoomKey" />
+          </Key>
+          <Property Name="RoomKey" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoomNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="InsertedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="RoomCustomerMaps" Relationship="Self.FK_HotelRoom" FromRole="HotelRoom" ToRole="RoomCustomerMap" />
+        </EntityType>
+        <EntityType Name="RoomCustomerMap">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoomKey" Type="Int32" Nullable="false" />
+          <Property Name="CustomerKey" Type="Int32" Nullable="false" />
+          <Property Name="BookedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="InsertedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="CustomerInfo" Relationship="Self.FK_CustomerInfo" FromRole="RoomCustomerMap" ToRole="CustomerInfo" />
+          <NavigationProperty Name="HotelRoom" Relationship="Self.FK_HotelRoom" FromRole="RoomCustomerMap" ToRole="HotelRoom" />
+        </EntityType>
+        <Association Name="FK_CustomerInfo">
+          <End Role="CustomerInfo" Type="Self.CustomerInfo" Multiplicity="1" />
+          <End Role="RoomCustomerMap" Type="Self.RoomCustomerMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerInfo">
+              <PropertyRef Name="CustomerKey" />
+            </Principal>
+            <Dependent Role="RoomCustomerMap">
+              <PropertyRef Name="CustomerKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HotelRoom">
+          <End Role="HotelRoom" Type="Self.HotelRoom" Multiplicity="1" />
+          <End Role="RoomCustomerMap" Type="Self.RoomCustomerMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HotelRoom">
+              <PropertyRef Name="RoomKey" />
+            </Principal>
+            <Dependent Role="RoomCustomerMap">
+              <PropertyRef Name="RoomKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HotelManagementEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CustomerInfoes" EntityType="Self.CustomerInfo" />
+          <EntitySet Name="HotelOwners" EntityType="Self.HotelOwner" />
+          <EntitySet Name="HotelRooms" EntityType="Self.HotelRoom" />
+          <EntitySet Name="RoomCustomerMaps" EntityType="Self.RoomCustomerMap" />
+          <AssociationSet Name="FK_CustomerInfo" Association="Self.FK_CustomerInfo">
+            <End Role="CustomerInfo" EntitySet="CustomerInfoes" />
+            <End Role="RoomCustomerMap" EntitySet="RoomCustomerMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HotelRoom" Association="Self.FK_HotelRoom">
+            <End Role="HotelRoom" EntitySet="HotelRooms" />
+            <End Role="RoomCustomerMap" EntitySet="RoomCustomerMaps" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HotelManagementModelStoreContainer" CdmEntityContainer="HotelManagementEntities">
+          <EntitySetMapping Name="CustomerInfoes">
+            <EntityTypeMapping TypeName="HotelManagementModel.CustomerInfo">
+              <MappingFragment StoreEntitySet="CustomerInfo">
+                <ScalarProperty Name="CustomerKey" ColumnName="CustomerKey" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="CustomerObjectId" ColumnName="CustomerObjectId" />
+                <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HotelOwners">
+            <EntityTypeMapping TypeName="HotelManagementModel.HotelOwner">
+              <MappingFragment StoreEntitySet="HotelOwner">
+                <ScalarProperty Name="HotelUserKey" ColumnName="HotelUserKey" />
+                <ScalarProperty Name="HotelUserName" ColumnName="HotelUserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HotelRooms">
+            <EntityTypeMapping TypeName="HotelManagementModel.HotelRoom">
+              <MappingFragment StoreEntitySet="HotelRoom">
+                <ScalarProperty Name="RoomKey" ColumnName="RoomKey" />
+                <ScalarProperty Name="RoomNo" ColumnName="RoomNo" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoomCustomerMaps">
+            <EntityTypeMapping TypeName="HotelManagementModel.RoomCustomerMap">
+              <MappingFragment StoreEntitySet="RoomCustomerMap">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RoomKey" ColumnName="RoomKey" />
+                <ScalarProperty Name="CustomerKey" ColumnName="CustomerKey" />
+                <ScalarProperty Name="BookedTime" ColumnName="BookedTime" />
+                <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
