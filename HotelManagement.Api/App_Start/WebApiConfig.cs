@@ -14,7 +14,7 @@ namespace HotelManagement.Api
             // Web API configuration and services
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
-            var cors = new EnableCorsAttribute("http://localhost:4205", headers:"*",methods: "*");        
+            var cors = new EnableCorsAttribute("http://localhost:4200", headers:"*",methods: "*");        
             config.EnableCors(cors);
             // Web API routes
             config.MapHttpAttributeRoutes();
