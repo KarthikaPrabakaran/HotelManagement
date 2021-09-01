@@ -24,21 +24,12 @@ namespace HotelManagement.Api
                 AuthenticationMode = AuthenticationMode.Active,
                 TokenValidationParameters = new TokenValidationParameters()
                 {
-                   // ValidateIssuer = true,
-                    //ValidateAudience = true,
-                    //ValidateIssuerSigningKey = true,
-                    //ValidIssuer = "http://mysite.com", //some string, normally web url,
-                    //ValidAudience = "http://mysite.com",
-                    //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my_secret_key_12345"))
+                   ValidateIssuer = true,
+                   ValidateAudience = true,
+                   ValidateIssuerSigningKey = true,
                 }
             };
             app.UseJwtBearerAuthentication(options1);
-            var config = new HttpConfiguration();
-            //WebApiConfig.Register(config);
-            //app.UseWebApi(config);
-            WebApiConfig.Register(config);
-            app.UseCors(CorsOptions.AllowAll);
-            //app.UseWebApi(config);
         }
     }
 }
